@@ -103,9 +103,6 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
 - (void)applyRequestHeaders:(NSDictionary*)headers toRequest:(NSMutableURLRequest*)req
 {
     [req setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
-    [self.webViewEngine evaluateJavaScript:@"navigator.userAgent" completionHandler:^(NSString* userAgent, NSError* error) {
-        [req setValue:userAgent forHTTPHeaderField:@"User-Agent"];
-
         for (NSString* headerName in headers) {
             id value = [headers objectForKey:headerName];
             if (!value || (value == [NSNull null])) {
@@ -130,7 +127,6 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
                 }
             }
         }
-    }];
 }
 
 - (NSURLRequest*)requestForUploadCommand:(CDVInvokedUrlCommand*)command fileData:(NSData*)fileData
